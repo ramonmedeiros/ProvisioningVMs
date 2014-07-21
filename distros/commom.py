@@ -20,7 +20,7 @@ import utils
 #
 DEFINE_VM="virsh define %s"
 LIBVIRT_IMAGES="/var/lib/libvirt/images/"
-LIBVIRT_MACS="grep -o -E \"..:..:..:..:..:..\" /etc/libvirt/qemu/*xml"
+LIBVIRT_MACS="grep -o -E \"..:..:..:..:..:..\" /etc/libvirt/qemu/*xml 2> /dev/null"
 LIST_MACHINES="virsh list --all"
 MACS="distros/macs.txt"
 TEMPLATE="template.xml"
