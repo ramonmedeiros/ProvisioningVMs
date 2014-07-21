@@ -66,18 +66,18 @@ def editFiles(mntDir, name):
         utils.sedFile(bootproto, "BOOTPROTO=dhcp", netconfig)
 
     # read shadow
-    shadow = os.path.join(mntDir, "etc/shadow")
-    content = utils.readFile(shadow)
+    #shadow = os.path.join(mntDir, "etc/shadow")
+    #content = utils.readFile(shadow)
 
     # parse old password and salt
-    oldpasswd = re.search("root:.*?:", content).group(0)
-    oldsalt = re.search("\\$.*\\$", oldpasswd).group(0)
+    #oldpasswd = re.search("root:.*?:", content).group(0)
+    #oldsalt = re.search("\\$.*\\$", oldpasswd).group(0)
     
     # print new password
-    passwd = hashlib.md5(os.urandom(1)).hexdigest()
+    #passwd = hashlib.md5(os.urandom(1)).hexdigest()
 
-    print "Root Password will be %s" % passwd
-    newpasswd = crypt.crypt("passwd", oldsalt)
-    utils.sedFile(oldpasswd, "root:%s:" % newpasswd, shadow)
+    #print "Root Password will be %s" % passwd
+    #newpasswd = crypt.crypt("passwd", oldsalt)
+    #utils.sedFile(oldpasswd, "root:%s:" % newpasswd, shadow)
 # editFiles
 
