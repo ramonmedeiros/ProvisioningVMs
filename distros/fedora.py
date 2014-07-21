@@ -12,6 +12,7 @@ sys.path.append(os.getcwd())
 #
 import commom
 import crypt
+import hashlib
 import re
 import utils
 
@@ -60,12 +61,19 @@ def editFiles(mntDir, name):
     if "dhcp" not in bootproto:
         utils.sedFile(bootproto, "BOOTPROTO=dhcp", netconfig)
 
-    # TODO: read salt from system
-    # change root password
-    #shadow = os.path.join(mntDir, "etc/shadow")
-    #content = utils.readFile(shadow)
-    #oldpasswd = re.search("root:.*?:", content).group(0)
-    #newpasswd = crypt.crypt("senhaboa", crypt.mksalt())
-    #utils.sedFile(oldpasswd, newpasswd, shadow)
+    # read shadow
+    shadow = os.path.join(mntDir, "etc/shadow")
+    content = utils.readFile(shadow)
+
+    # parse old password and salt
+    oldpasswd = re.search("root:.*?:", content).group(0)
+    oldsalt = re.search("\\$.*\\$", oldpasswd).group(0)
+    
+    # print new password
+    passwd = hashlib.md5(os.urandom(1)).hexdigest()
+
+    print "Root Password will be %s" % passwd
+    newpasswd = crypt.crypt("passwd", oldsalt)
+    utils.sedFile(oldpasswd, "root:%s:" % newpasswd, shadow)
 # editFiles
 
