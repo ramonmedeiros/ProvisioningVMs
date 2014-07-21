@@ -47,6 +47,7 @@ def mountImage(imagePath, rootPartition):
 
     # wait loop device to be ready
     time.sleep(1)
+    print "Mounting image to edit"
     os.system(MOUNT % {"loop":loopDev.replace("/dev","/dev/mapper"), 
                        "mount_dir":tmpdir,
                        "partition": rootPartition}) 

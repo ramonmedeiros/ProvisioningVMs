@@ -41,6 +41,8 @@ def cleanUpMount(loopDev, mntDir):
     @rtype: None
     @returns: Nothing
     """
+    print "Cleaning up"
+
     # umount and remove xml file
     os.system("umount " + mntDir)
 
@@ -78,6 +80,7 @@ def createLibvirtXML(name, mac, img):
     utils.recordFile(newXML, tmpfile)
 
     # define vm
+    print "Defining new VM %s" % name
     if 0 != os.system(DEFINE_VM % tmpfile):
         print "Cannot define %s" % tmpfile
         sys.exit(1)
@@ -108,6 +111,7 @@ def createVM(basename, disk, editFiles, rootPartition):
     mac = findAvailableMac()
     
     # cannot copy image: exit
+    print "Copying new VM. Can take some minutes"
     img = os.path.join(LIBVIRT_IMAGES, name + ".img")
     if 0 != os.system("cp -a %s %s" % (disk,img)):
         print "Cannot copy image to libvirt directory"

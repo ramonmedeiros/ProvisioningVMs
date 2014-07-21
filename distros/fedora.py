@@ -51,10 +51,14 @@ def editFiles(mntDir, name):
     @returns: Nothing
     """
     # change hostname
+    print "Image Editing\n\n"
+    
+    print "Changing hostname"
     hostname = os.path.join(mntDir, "etc/hostname")
     utils.recordFile(name, hostname)
 
     # set network as dhcp
+    print "Set network as DHCP"
     netconfig = os.path.join(mntDir, "etc/sysconfig/network-scripts/ifcfg-eth0")
     content = utils.readFile(netconfig)
     bootproto = re.search("BOOTPROTO=.*",content).group(0)
