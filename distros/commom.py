@@ -23,7 +23,6 @@ LIBVIRT_IMAGES="/var/lib/libvirt/images/"
 LIBVIRT_MACS="grep -o -E \"..:..:..:..:..:..\" /etc/libvirt/qemu/*xml 2> /dev/null"
 LIST_MACHINES="virsh list --all"
 MACS="distros/macs.txt"
-TEMPLATE="template.xml"
 
 #
 # CODE
@@ -51,7 +50,7 @@ def cleanUpMount(loopDev, mntDir):
     os.system("losetup -d %s" % loopDev)
 # cleanUpMount
 
-def createLibvirtXML(name, mac, img):
+def createLibvirtXML(name, mac, img, template):
     """
     Creates, define and start VM XML
     
@@ -64,11 +63,14 @@ def createLibvirtXML(name, mac, img):
     @type  img: str
     @param img: img path
 
+    @type  template: str
+    @param template: template name
+
     @rtype: None
     @returns: Nothing
     """
     # fill xml file
-    template = os.path.join(os.getcwd(), "distros/", TEMPLATE)
+    template = os.path.join(os.getcwd(), "distros/", template)
     newXML = utils.readFile(template)
     newXML = newXML % {"name": name,
                        "disk_path": img,
@@ -87,7 +89,7 @@ def createLibvirtXML(name, mac, img):
     os.system("rm -f %s" % tmpfile)
 # createLibvirtXML
 
-def createVM(basename, disk, editFiles, rootPartition):
+def createVM(basename, disk, editFiles, rootPartition, template):
     """
     Edit VM disk, create libvirt entry and start each
 
@@ -102,6 +104,9 @@ def createVM(basename, disk, editFiles, rootPartition):
 
     @type  rootPartition: str
     @param rootPartition: root partition
+
+    @type  template: str
+    @param template: template name
 
     @rtype: None
     @returns: Nothing
@@ -126,7 +131,7 @@ def createVM(basename, disk, editFiles, rootPartition):
     editFiles(mntDir, name, mac)
 
     # create VM
-    createLibvirtXML(name, mac, img)
+    createLibvirtXML(name, mac, img, template)
 
     # clean up files
     cleanUpMount(loopDevice, mntDir)

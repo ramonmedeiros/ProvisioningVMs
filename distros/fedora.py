@@ -22,6 +22,7 @@ import utils
 BASENAME="fedora"
 DISK=os.path.join(os.getcwd(), "disks/fedora.img")
 ROOT_PARTITION="p5"
+TEMPLATE="fedora.xml"
 
 #
 # CODE
@@ -34,10 +35,10 @@ def createFedora():
     @returns: Nothing
     """
     # create VM
-    commom.createVM(BASENAME, DISK, editFiles, ROOT_PARTITION)
+    commom.createVM(BASENAME, DISK, editFiles, ROOT_PARTITION, TEMPLATE)
 # createFedora
 
-def editFiles(mntDir, name):
+def editFiles(mntDir, name, mac):
     """
     Edit files on image
 
@@ -46,6 +47,9 @@ def editFiles(mntDir, name):
 
     @type  name: str
     @param name: vm name
+
+    @type  mac: str
+    @param mac: mac address
 
     @rtype: None
     @returns: Nothing

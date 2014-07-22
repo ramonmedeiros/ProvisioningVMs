@@ -43,7 +43,7 @@ IP = {
 }
 RESOLV_CONF="nameserver 8.8.8.8"
 ROOT_PARTITION="p2"
-
+TEMPLATE="ubuntu.xml"
 
 #
 # CODE
@@ -56,7 +56,7 @@ def createUbuntu():
     @returns: Nothing
     """
     # create VM
-    commom.createVM(BASENAME, DISK, editFiles, ROOT_PARTITION)
+    commom.createVM(BASENAME, DISK, editFiles, ROOT_PARTITION, TEMPLATE)
 # createUbuntu
 
 def editFiles(mntDir, name, mac):
