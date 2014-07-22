@@ -123,7 +123,7 @@ def createVM(basename, disk, editFiles, rootPartition):
     loopDevice = data["loop"]
 
     # edit files in ISO
-    editFiles(mntDir, name)
+    editFiles(mntDir, name, mac)
 
     # create VM
     createLibvirtXML(name, mac, img)

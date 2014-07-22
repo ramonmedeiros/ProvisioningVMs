@@ -20,13 +20,30 @@ import utils
 # CONSTANTS
 #
 BASENAME="ubuntu"
-DHCP_CONFIG="""
+INTERFACES_CONFIG="""
 auto eth0
-  allow-hotplug eth0
-  iface eth0 inet dhcp
+iface eth0 inet static
+    address %(ip)s
+    netmask 255.255.255.224
+    gateway 143.106.167.129
 """
 DISK=os.path.join(os.getcwd(), "disks/ubuntu.img")
+IP = {
+"4c:45:42:45:cd:01":"143.106.167.131",
+"4c:45:42:45:cd:02":"143.106.167.132",
+"4c:45:42:45:cd:03":"143.106.167.133",
+"4c:45:42:45:cd:04":"143.106.167.134",
+"4c:45:42:45:cd:05":"143.106.167.135",
+"4c:45:42:45:cd:06":"143.106.167.136",
+"4c:45:42:45:cd:07":"143.106.167.137",
+"4c:45:42:45:cd:08":"143.106.167.138",
+"4c:45:42:45:cd:09":"143.106.167.139",
+"4c:45:42:45:cd:0a":"143.106.167.140",
+"4c:45:42:45:cd:0b":"143.106.167.141"
+}
+RESOLV_CONF="nameserver 8.8.8.8"
 ROOT_PARTITION="p2"
+
 
 #
 # CODE
@@ -42,7 +59,7 @@ def createUbuntu():
     commom.createVM(BASENAME, DISK, editFiles, ROOT_PARTITION)
 # createUbuntu
 
-def editFiles(mntDir, name):
+def editFiles(mntDir, name, mac):
     """
     Edit files on image
 
@@ -51,6 +68,9 @@ def editFiles(mntDir, name):
 
     @type  name: str
     @param name: vm name
+
+    @type  mac: str
+    @param mac: mac address
 
     @rtype: None
     @returns: Nothing
@@ -63,13 +83,20 @@ def editFiles(mntDir, name):
     utils.recordFile(name, hostname)
 
     # set network as dhcp
-    print "Set network as DHCP"
+    print "Set network as static"
     netconfig = os.path.join(mntDir, "etc/network/interfaces")
     fd = open(netconfig, "a")
-    fd.write("\n")
-    fd.write(DHCP_CONFIG)
+    fd.write("\n" + INTERFACES_CONFIG % {"ip":IP[mac]})
     fd.close()
-    
+
+    # set dns server
+    dnsconfig = os.path.join(mntDir, "etc/resolvconf/resolv.conf.d/tail")
+    if not os.path.exists(os.path.dirname(dnsconfig)):
+        os.makedirs(os.path.dirname(dnsconfig))
+    fd = open(dnsconfig, "w")
+    fd.write("\n" + RESOLV_CONF)
+    fd.close()
+
     # read shadow
     #shadow = os.path.join(mntDir, "etc/shadow")
     #content = utils.readFile(shadow)
