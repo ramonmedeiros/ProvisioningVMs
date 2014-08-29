@@ -3,7 +3,7 @@
 #
 # IMPORTS
 #
-from distros import ubuntu, fedora
+from distros import ubuntu, fedora, debian
 import argparse
 
 
@@ -26,7 +26,7 @@ def parseCommandLine():
     parser = argparse.ArgumentParser()
 
     # set args
-    parser.add_argument(DISTRO, type=str, help="distros supported: (fedora/ubuntu)")
+    parser.add_argument(DISTRO, type=str, help="distros supported: (fedora/ubuntu/debian)")
     
     # parse args
     args = parser.parse_args()
@@ -38,6 +38,10 @@ def parseCommandLine():
     # create ubuntu
     elif args.distro == "ubuntu":
         ubuntu.createUbuntu()
+
+    # create debian
+    elif args.distro == "debian":
+        debian.createDebian()
     
     # no option given: show help
     else: 

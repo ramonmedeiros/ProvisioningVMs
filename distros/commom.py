@@ -45,6 +45,11 @@ def cleanUpMount(loopDev, mntDir):
     # umount and remove xml file
     os.system("umount " + mntDir)
 
+    # qcow2
+    if "nbd" in loopDev:
+        os.system("qemu-nbd -d " + loopDev)
+        return 
+
     # remove mapper device
     os.system("dmsetup remove %s*" % loopDev.replace("/dev","/dev/mapper"))
     os.system("losetup -d %s" % loopDev)

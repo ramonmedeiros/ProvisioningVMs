@@ -15,6 +15,9 @@ CREATE_LOOP="losetup %(loop)s %(image)s"
 KPARTX="kpartx -a %(loop)s"
 MOUNT="mount %(loop)s%(partition)s %(mount_dir)s"
 
+PROBE_MODULE="modprobe nbd max_part=63"
+NBD="qemu-nbd -c /dev/nbd0 %(image)s"
+MOUNT_NBD="mount /dev/nbd0%(partition)s %(mount_dir)s"
 
 #
 # CODE
@@ -32,6 +35,10 @@ def mountImage(imagePath, rootPartition):
     @rtype: dict
     @returns: mount directory and loop device
     """
+    # qcow2 image
+    if "debian" in imagePath:
+        return mountQcow2(imagePath, rootPartition)
+
     # image not exist: skip
     if not os.path.exists(imagePath):
         print "Image %s does not exists" % imagePath
@@ -54,6 +61,41 @@ def mountImage(imagePath, rootPartition):
     
     return {"dir":tmpdir, "loop":loopDev}
 # mountImage
+
+def mountQcow2(imagePath, rootPartition):
+    """
+    Mounts a qemu image
+
+    @type  imagePath: str
+    @param imagePath: path to image
+
+    @type  rootPartition: str
+    @param rootPartition: root partition, ex: p1
+
+    @rtype: dict
+    @returns: mount directory and loop device
+    """
+    # image not exist: skip
+    if not os.path.exists(imagePath):
+        print "Image %s does not exists" % imagePath
+        sys.exit(1)
+
+    # create loop device associated to image
+    os.system(PROBE_MODULE)
+    os.system("qemu-nbd -d /dev/nbd0")
+
+    # run kpartx and mount
+    tmpdir =  tempfile.mkdtemp()
+    os.system(NBD % {"image":imagePath})
+
+    # wait loop device to be ready
+    time.sleep(1)
+    print "Mounting image to edit"
+    os.system(MOUNT_NBD % {"mount_dir":tmpdir,
+                           "partition": rootPartition}) 
+    
+    return {"dir":tmpdir, "loop":"/dev/nbd0"}
+# mountQcow2
 
 def findLoopDevice():
     """
