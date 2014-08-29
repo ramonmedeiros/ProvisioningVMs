@@ -10,6 +10,8 @@ sys.path.append(os.getcwd())
 #
 # IMPORTS
 #
+from debian import IP
+
 import commom
 import crypt
 import hashlib
@@ -68,6 +70,10 @@ def editFiles(mntDir, name, mac):
     bootproto = re.search("BOOTPROTO=.*",content).group(0)
     if "dhcp" not in bootproto:
         utils.sedFile(bootproto, "BOOTPROTO=dhcp", netconfig)
+
+    # print ip used
+    print "IP " + IP[mac]
+    print "Default password is senhaboa"
 
     # read shadow
     #shadow = os.path.join(mntDir, "etc/shadow")

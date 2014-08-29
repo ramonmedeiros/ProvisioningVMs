@@ -97,6 +97,10 @@ def editFiles(mntDir, name, mac):
     fd.write("\n" + RESOLV_CONF)
     fd.close()
 
+    # print ip used
+    print "IP " + IP[mac]
+    print "Default password for root is senhaboa"
+
     # read shadow
     #shadow = os.path.join(mntDir, "etc/shadow")
     #content = utils.readFile(shadow)

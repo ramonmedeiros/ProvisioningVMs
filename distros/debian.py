@@ -88,6 +88,10 @@ def editFiles(mntDir, name, mac):
     fd.write("\n" + INTERFACES_CONFIG % {"ip":IP[mac]})
     fd.close()
 
+    # print ip used
+    print "IP " + IP[mac]
+    print "Default password is abc123"
+
     # read shadow
     #shadow = os.path.join(mntDir, "etc/shadow")
     #content = utils.readFile(shadow)
