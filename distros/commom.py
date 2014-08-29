@@ -18,11 +18,13 @@ import utils
 #
 # CONSTANTS
 #
+AUTOSTART="virsh autostart %s"
 DEFINE_VM="virsh define %s"
 LIBVIRT_IMAGES="/var/lib/libvirt/images/"
 LIBVIRT_MACS="grep -o -E \"..:..:..:..:..:..\" /etc/libvirt/qemu/*xml 2> /dev/null"
 LIST_MACHINES="virsh list --all"
 MACS="distros/macs.txt"
+START_VM="virsh start %s"
 
 #
 # CODE
@@ -92,6 +94,12 @@ def createLibvirtXML(name, mac, img, template):
         print "Cannot define %s" % tmpfile
         sys.exit(1)
     os.system("rm -f %s" % tmpfile)
+
+    # start vm
+    print "\n Starting VM %s\n" % name
+    os.system(START_VM % name)
+    os.system(AUTOSTART % name)
+
 # createLibvirtXML
 
 def createVM(basename, disk, editFiles, rootPartition, template):
