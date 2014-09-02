@@ -11,6 +11,7 @@ import argparse
 # CONSTANTS
 #
 DISTRO="distro"
+KEY="key"
 
 #
 # CODE
@@ -27,21 +28,22 @@ def parseCommandLine():
 
     # set args
     parser.add_argument(DISTRO, type=str, help="distros supported: (fedora/ubuntu/debian)")
+    parser.add_argument(KEY, type=str, help="public key")
     
     # parse args
     args = parser.parse_args()
     
     # create fedora
     if args.distro == "fedora":
-        fedora.createFedora()
+        fedora.createFedora(args.key)
 
     # create ubuntu
     elif args.distro == "ubuntu":
-        ubuntu.createUbuntu()
+        ubuntu.createUbuntu(args.key)
 
     # create debian
     elif args.distro == "debian":
-        debian.createDebian()
+        debian.createDebian(args.key)
     
     # no option given: show help
     else: 

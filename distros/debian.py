@@ -47,15 +47,18 @@ TEMPLATE="debian.xml"
 #
 # CODE
 #
-def createDebian():
+def createDebian(key):
     """
     Creates debian host
+
+    @type key: string
+    @param key: public key
 
     @rtype: None
     @returns: Nothing
     """
     # create VM
-    commom.createVM(BASENAME, DISK, editFiles, ROOT_PARTITION, TEMPLATE)
+    commom.createVM(BASENAME, DISK, editFiles, ROOT_PARTITION, TEMPLATE, key)
 # createUbuntu
 
 def editFiles(mntDir, name, mac):

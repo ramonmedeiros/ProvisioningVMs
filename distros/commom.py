@@ -111,7 +111,7 @@ def createLibvirtXML(name, mac, img, template):
 
 # createLibvirtXML
 
-def createVM(basename, disk, editFiles, rootPartition, template):
+def createVM(basename, disk, editFiles, rootPartition, template, key):
     """
     Edit VM disk, create libvirt entry and start each
 
@@ -129,6 +129,9 @@ def createVM(basename, disk, editFiles, rootPartition, template):
 
     @type  template: str
     @param template: template name
+
+    @type  key: str
+    @param key: public key
 
     @rtype: None
     @returns: Nothing
@@ -148,6 +151,15 @@ def createVM(basename, disk, editFiles, rootPartition, template):
     data = utils.mountImage(img, rootPartition)
     mntDir = data["dir"]
     loopDevice = data["loop"]
+
+    # ssh directory does not exists: create it
+    if os.path.exists(os.path.join(mntDir, "root/.ssh")) == False:
+        os.mkdir(os.path.join(mntDir, "root/.ssh"))
+
+    # register new key
+    fd = open(os.path.join(mntDir, "root/.ssh/authorized_keys"), "a")
+    fd.write(key)
+    fd.close()
 
     # edit files in ISO
     editFiles(mntDir, name, mac)

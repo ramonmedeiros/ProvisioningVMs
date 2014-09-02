@@ -48,15 +48,18 @@ TEMPLATE="ubuntu.xml"
 #
 # CODE
 #
-def createUbuntu():
+def createUbuntu(key):
     """
     Creates ubuntu host
+
+    @type  key: str
+    @param key: public key
 
     @rtype: None
     @returns: Nothing
     """
     # create VM
-    commom.createVM(BASENAME, DISK, editFiles, ROOT_PARTITION, TEMPLATE)
+    commom.createVM(BASENAME, DISK, editFiles, ROOT_PARTITION, TEMPLATE, key)
 # createUbuntu
 
 def editFiles(mntDir, name, mac):

@@ -29,15 +29,18 @@ TEMPLATE="fedora.xml"
 #
 # CODE
 #
-def createFedora():
+def createFedora(key):
     """
     Creates fedora host
+
+    @type  key: str
+    @param key: public key
 
     @rtype: None
     @returns: Nothing
     """
     # create VM
-    commom.createVM(BASENAME, DISK, editFiles, ROOT_PARTITION, TEMPLATE)
+    commom.createVM(BASENAME, DISK, editFiles, ROOT_PARTITION, TEMPLATE, key)
 # createFedora
 
 def editFiles(mntDir, name, mac):
