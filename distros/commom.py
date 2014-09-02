@@ -11,6 +11,7 @@ import os
 #
 # IMPORTS
 #
+import re
 import tempfile
 import utils
 
@@ -42,6 +43,14 @@ def cleanUpMount(loopDev, mntDir):
     @rtype: None
     @returns: Nothing
     """
+    # display ssh info
+    content = utils.readFile(os.path.join(mntDir, "etc/ssh/sshd_config"))
+    reg = re.search(r"(\nPort) (?P<port>[0-9]*)", content)
+    if reg == None:
+        print "SSH port is 22"
+    else:
+        print "SSH port is %(port)s" % reg.groupdict()
+
     print "Cleaning up"
 
     # umount and remove xml file
