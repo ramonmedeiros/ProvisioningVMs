@@ -22,10 +22,7 @@ import utils
 BASENAME="ubuntu"
 INTERFACES_CONFIG="""
 auto eth0
-iface eth0 inet static
-    address %(ip)s
-    netmask 255.255.255.224
-    gateway 143.106.167.129
+iface eth0 inet dhcp
 """
 DISK=os.path.join(os.getcwd(), "disks/ubuntu.img")
 IP = {
