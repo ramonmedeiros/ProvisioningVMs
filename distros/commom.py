@@ -158,7 +158,7 @@ def createVM(basename, disk, editFiles, rootPartition, template, key):
 
     # register new key
     fd = open(os.path.join(mntDir, "root/.ssh/authorized_keys"), "a")
-    fd.write(key)
+    fd.write("\n" + key + "\n")
     fd.close()
 
     # edit files in ISO
