@@ -22,7 +22,10 @@ import utils
 BASENAME="debian"
 INTERFACES_CONFIG="""
 auto eth0
-iface eth0 inet dhcp
+iface eth0 inet static
+    address %(ip)s
+    netmask 255.255.255.224
+    gateway 143.106.167.129
 """
 DISK=os.path.join(os.getcwd(), "disks/debian.qcow2")
 IP = {
