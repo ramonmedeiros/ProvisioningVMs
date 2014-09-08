@@ -38,7 +38,7 @@ IP = {
 "4c:45:42:45:cd:0a":"143.106.167.140",
 "4c:45:42:45:cd:0b":"143.106.167.141"
 }
-ROOT_PARTITION="p2"
+ROOT_PARTITION=""
 TEMPLATE="debian.xml"
 
 #

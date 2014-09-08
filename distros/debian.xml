@@ -7,6 +7,9 @@
     <partition>/machine</partition>
   </resource>
   <os>
+    <kernel>/var/lib/libvirt/images/vmlinux</kernel>
+    <initrd>/var/lib/libvirt/images/initrd</initrd>
+    <cmdline>root=/dev/sda</cmdline>
     <type arch='ppc64' machine='pseries'>hvm</type>
     <boot dev='hd'/>
     <boot dev='cdrom'/>
