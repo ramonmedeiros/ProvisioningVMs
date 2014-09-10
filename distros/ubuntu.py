@@ -15,7 +15,7 @@ import crypt
 import hashlib
 import re
 import utils
-
+from debian import IP
 #
 # CONSTANTS
 #
@@ -25,19 +25,6 @@ auto eth0
 iface eth0 inet dhcp
 """
 DISK=os.path.join(os.getcwd(), "disks/ubuntu.img")
-IP = {
-"4c:45:42:45:cd:01":"143.106.167.131",
-"4c:45:42:45:cd:02":"143.106.167.132",
-"4c:45:42:45:cd:03":"143.106.167.133",
-"4c:45:42:45:cd:04":"143.106.167.134",
-"4c:45:42:45:cd:05":"143.106.167.135",
-"4c:45:42:45:cd:06":"143.106.167.136",
-"4c:45:42:45:cd:07":"143.106.167.137",
-"4c:45:42:45:cd:08":"143.106.167.138",
-"4c:45:42:45:cd:09":"143.106.167.139",
-"4c:45:42:45:cd:0a":"143.106.167.140",
-"4c:45:42:45:cd:0b":"143.106.167.141"
-}
 RESOLV_CONF="nameserver 8.8.8.8"
 ROOT_PARTITION="p2"
 TEMPLATE="ubuntu.xml"
