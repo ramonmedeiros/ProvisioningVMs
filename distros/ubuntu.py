@@ -21,8 +21,8 @@ from debian import IP
 #
 BASENAME="ubuntu"
 INTERFACES_CONFIG="""
-auto eth0
-iface eth0 inet dhcp
+auto eth1
+iface eth1 inet dhcp
 """
 DISK=os.path.join(os.getcwd(), "disks/ubuntu.img")
 RESOLV_CONF="nameserver 8.8.8.8"
