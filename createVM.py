@@ -3,7 +3,7 @@
 #
 # IMPORTS
 #
-from distros import ubuntu, fedora, debian
+from distros import ubuntu, fedora, debian, suse
 import argparse
 
 
@@ -27,7 +27,7 @@ def parseCommandLine():
     parser = argparse.ArgumentParser()
 
     # set args
-    parser.add_argument(DISTRO, type=str, help="distros supported: (fedora/ubuntu/debian)")
+    parser.add_argument(DISTRO, type=str, help="distros supported: (fedora/ubuntu/debian/suse)")
     parser.add_argument(KEY, type=str, help="public key")
     
     # parse args
@@ -45,6 +45,10 @@ def parseCommandLine():
     elif args.distro == "debian":
         debian.createDebian(args.key)
     
+    # create suse
+    elif args.distro == "suse":
+        suse.createSuse(args.key)
+
     # no option given: show help
     else: 
         parser.print_help()
