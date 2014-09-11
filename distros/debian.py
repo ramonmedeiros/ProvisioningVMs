@@ -83,7 +83,7 @@ def editFiles(mntDir, name, mac):
     # print ip used
     print "IP: " + IP[mac]
     print "root password: 60fb619414782814d344e9a08d77101ce31057fec58f35643ad167cf67c5e128ea66c750d08282633bb432619c146e0543ae8d61b885902b9f61302b537aaf07"
-
+    commom.printSSHPort(mntDir)
     # read shadow
     #shadow = os.path.join(mntDir, "etc/shadow")
     #content = utils.readFile(shadow)

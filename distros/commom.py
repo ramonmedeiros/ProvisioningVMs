@@ -19,12 +19,12 @@ import utils
 #
 # CONSTANTS
 #
-AUTOSTART="virsh autostart %s"
-DEFINE_VM="virsh define %s"
+AUTOSTART="virsh autostart %s &>/dev/null"
+DEFINE_VM="virsh define %s &>/dev/null"
 LIBVIRT_IMAGES="/var/lib/libvirt/images/"
 LIBVIRT_MACS="grep -o -E \"..:..:..:..:..:..\" /etc/libvirt/qemu/*xml 2> /dev/null"
 LIST_MACHINES="virsh list --all"
-START_VM="virsh start %s"
+START_VM="virsh start %s &>/dev/null"
 IP = {
 "4c:45:42:45:cd:01":"143.106.167.131",
 "4c:45:42:45:cd:02":"143.106.167.132",
@@ -70,7 +70,7 @@ def cleanUpMount(loopDev, mntDir):
     # qcow2
     if "nbd" in loopDev:
         os.system("qemu-nbd -d " + loopDev)
-        return 
+        return
 
     # remove mapper device
     os.system("dmsetup remove %s*" % loopDev.replace("/dev","/dev/mapper"))
@@ -116,7 +116,6 @@ def createLibvirtXML(name, mac, img, template):
     os.system("rm -f %s" % tmpfile)
 
     # start vm
-    print "\n Starting VM %s\n" % name
     os.system(START_VM % name)
     os.system(AUTOSTART % name)
 
@@ -177,16 +176,6 @@ def createVM(basename, disk, editFiles, rootPartition, template, key):
     fd.write("\n" + key + "\n")
     fd.close()
 
-    # display ssh info
-    content = utils.readFile(os.path.join(mntDir, "etc/ssh/sshd_config"))
-    reg = re.search(r"(\nPort) (?P<port>[0-9]*)", content)
- 
-    # no ssh passed: print default
-    if reg == None:
-        print "SSH port is 22"
-    else:
-        print "SSH port is %(port)s" % reg.groupdict()
-
     # create VM
     createLibvirtXML(name, mac, img, template)
 
@@ -196,6 +185,28 @@ def createVM(basename, disk, editFiles, rootPartition, template, key):
     # clean up files
     cleanUpMount(loopDevice, mntDir)
 # createVM
+
+def printSSHPort(mntDir):
+    """
+    Prints ssh port
+
+    @type  mntDir: str
+    @param mntDir: dir where image is mounted
+
+    @rtype: None
+    @returns: Nothing
+    """
+    # display ssh info
+    content = utils.readFile(os.path.join(mntDir, "etc/ssh/sshd_config"))
+    reg = re.search(r"(\nPort) (?P<port>[0-9]*)", content)
+
+    # no ssh passed: print default
+    if reg == None:
+        print "SSH port is 22"
+    else:
+        print "SSH port is %(port)s" % reg.groupdict()
+
+# printSSHPort
 
 def findAvailableName(basename):
     """
