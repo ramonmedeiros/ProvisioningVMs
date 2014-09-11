@@ -10,12 +10,15 @@ sys.path.append(os.getcwd())
 #
 # IMPORTS
 #
+from commom import IP
+
 import commom
 import crypt
 import hashlib
 import re
 import utils
-from debian import IP
+
+
 #
 # CONSTANTS
 #

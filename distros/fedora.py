@@ -10,7 +10,7 @@ sys.path.append(os.getcwd())
 #
 # IMPORTS
 #
-from debian import IP
+from commom import IP
 
 import commom
 import crypt

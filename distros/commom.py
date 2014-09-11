@@ -24,8 +24,27 @@ DEFINE_VM="virsh define %s"
 LIBVIRT_IMAGES="/var/lib/libvirt/images/"
 LIBVIRT_MACS="grep -o -E \"..:..:..:..:..:..\" /etc/libvirt/qemu/*xml 2> /dev/null"
 LIST_MACHINES="virsh list --all"
-MACS="distros/macs.txt"
 START_VM="virsh start %s"
+IP = {
+"4c:45:42:45:cd:01":"143.106.167.131",
+"4c:45:42:45:cd:02":"143.106.167.132",
+"4c:45:42:45:cd:03":"143.106.167.133",
+"4c:45:42:45:cd:04":"143.106.167.134",
+"4c:45:42:45:cd:05":"143.106.167.135",
+"4c:45:42:45:cd:06":"143.106.167.136",
+"4c:45:42:45:cd:07":"143.106.167.137",
+"4c:45:42:45:cd:08":"143.106.167.138",
+"4c:45:42:45:cd:09":"143.106.167.139",
+"4c:45:42:45:cd:0a":"143.106.167.140",
+"4c:45:42:45:cd:0b":"143.106.167.141",
+"4c:45:42:45:cd:0c":"143.106.167.151",
+"4c:45:42:45:cd:0d":"143.106.167.152",
+"4c:45:42:45:cd:0e":"143.106.167.153",
+"4c:45:42:45:ce:01":"143.106.167.154",
+"4c:45:42:45:ce:02":"143.106.167.155",
+"4c:45:42:45:ce:03":"143.106.167.156",
+"4c:45:42:45:ce:04":"143.106.167.157"
+}
 
 #
 # CODE
@@ -193,7 +212,7 @@ def findAvailableMac():
     @rtype: str
     @returns: available mac address
     """
-    for mac in open(MACS).readlines():
+    for mac in IP.keys():
         if mac not in os.popen(LIBVIRT_MACS).read():
-            return mac.replace("\n","")
+            return mac
 # findAvailableMac
