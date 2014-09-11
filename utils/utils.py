@@ -36,7 +36,10 @@ def mountImage(imagePath, rootPartition):
     @returns: mount directory and loop device
     """
     # qcow2 image
-    if "debian" in imagePath:
+    filetype = os.system("file " + imagePath).read()
+    
+    # mount qcow image
+    if "QCOW" in filetype:
         return mountQcow2(imagePath, rootPartition)
 
     # image not exist: skip
