@@ -3,3 +3,7 @@ Simple tool to create VMs with installed OS disks
 Version 0.1 2014-07-22
 ------------------------
 Can create fedora and ubuntu hosts correctly
+
+Version 0.2 2014-09-11
+-----------------------
+Can create ubuntu, fedora and debian correctly
