@@ -159,6 +159,11 @@ def createVM(basename, disk, editFiles, rootPartition, template, key):
     name = findAvailableName(basename)
     mac = findAvailableMac()
     
+    # no mac available: finish
+    if mac == None:
+        print "No IP available: Abort"
+        sys.exit(1)
+
     # cannot copy image: exit
     print "Copying new VM. Can take some minutes"
     img = os.path.join(LIBVIRT_IMAGES, name + ".img")
@@ -215,4 +220,5 @@ def findAvailableMac():
     for mac in IP.keys():
         if mac not in os.popen(LIBVIRT_MACS).read():
             return mac
+    return None
 # findAvailableMac
