@@ -23,14 +23,15 @@ import utils
 #
 BASENAME="debian"
 INTERFACES_CONFIG="""
-auto eth0
-iface eth0 inet static
+auto eth3
+iface eth3 inet static
     address %(ip)s
     netmask 255.255.255.224
     gateway 143.106.167.129
+    dns-nameservers 8.8.8.8
 """
 DISK=os.path.join(os.getcwd(), "disks/debian.qcow2")
-ROOT_PARTITION=""
+ROOT_PARTITION="p2"
 TEMPLATE="debian.xml"
 
 #
@@ -79,6 +80,9 @@ def editFiles(mntDir, name, mac):
     fd = open(netconfig, "a")
     fd.write("\n" + INTERFACES_CONFIG % {"ip":IP[mac]})
     fd.close()
+
+    # allow password authentication on ssh
+    utils.sedFile("without-password", "yes", os.path.join(mntDir, "etc/ssh/sshd_config"))
 
     # print ip used
     print "IP: " + IP[mac]
